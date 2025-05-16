@@ -107,12 +107,14 @@ class TeacherDataTransformer(BaseTransformer):
                 
         # AI-infer required fields if missing/empty
         ai_required_fields = [
-            'bio', 'preferred_curriculum_experience', 'years_of_teaching_experience', 
+            'name', 'subject', 'headline',
+            'bio', 'preferred_curriculum_experience', 'years_of_teaching_experience',
+            'current_location_country', 'current_location_city',
             'linkedin_profile_url', 'preferred_grade_level', 'Nationality'
-        ]  # Do NOT include 'Source ID' here; it is mapped directly from 'ID' in input.
+        ]  # Source ID is mapped directly, not inferred
         missing_ai_fields = [
             field for field in ai_required_fields
-            if field not in transformed or pd.isna(transformed[field]) or not str(transformed[field]).strip() or str(transformed[field]).strip().lower() in ['bio', 'not specified', 'not provided']
+            if field not in transformed or pd.isna(transformed[field]) or not str(transformed[field]).strip() or str(transformed[field]).strip().lower() in ['bio', 'not specified', 'not provided', 'unknown']
         ]
         if missing_ai_fields:
             teacher_data = row.to_dict()

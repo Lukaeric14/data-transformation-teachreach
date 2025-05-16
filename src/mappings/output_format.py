@@ -74,21 +74,37 @@ FIELD_MAPPING = {
 
 # Fields with default values when missing
 DEFAULT_VALUES = {
-    'profile_completion_percentage': 0,
-    'profile_visibility': 'private',
-    'bio': 'No biography provided',  # Updated to provide a meaningful default
-    'willing_to_relocate': False,
-    'hourly_rate': 0,
-    'monthly_salary_expectation': 0,
-    'background_check_status': 'not_verified',
-    'subjects_count': 1,
-    'work_authorization_status': 'unknown',
-    'preferred_curriculum_experience': 'Not specified',  # Added meaningful default
-    'years_of_teaching_experience': '0',  # Added meaningful default
-    'linkedin_profile_url': 'Not provided',  # Added meaningful default
-    'preferred_grade_level': 'Elementary',  # Added meaningful default
-    'Nationality': 'International',  # Added meaningful default
-    'Source ID': 'Unknown',  # Added meaningful default
+    # Fields that are typically numbers or specific strings
+    'teacher_id': '',  # Should be generated
+    'name': '', # AI will fill, default to empty if fails
+    'subject': '', # AI will fill, default to empty if fails
+    'headline': '', # AI will fill, default to empty if fails
+    'bio': '', # AI will fill, default to empty if fails
+    'profile_completion_percentage': None, # Must be empty
+    'profile_visibility': None,          # Must be empty
+    'preferred_teaching_modes': None,    # Must be empty
+    'willing_to_relocate': None,         # Must be empty
+    'hourly_rate': None,                 # Must be empty
+    'monthly_salary_expectation': None,  # Must be empty
+    'available_start_date': None,        # Must be empty
+    'cv_resume_url': None,               # Must be empty
+    'video_intro_url': None,             # Must be empty
+    'preferred_curriculum_experience': '', # AI will fill, default to empty if fails
+    'years_of_teaching_experience': '0', # AI will fill, default to '0'
+    'work_authorization_status': None,   # Must be empty
+    'current_location_country': '', # AI will fill, default to empty if fails
+    'current_location_city': '',    # AI will fill, default to empty if fails
+    'background_check_status': None,     # Must be empty
+    'linkedin_profile_url': '',  # AI will fill, default to empty if 'Not provided' is not desired
+    'preferred_grade_level': '', # AI will fill, default to empty if fails
+    'subjects_count': 0, # Default to 0, can be updated by AI/logic
+    'created_at': '', # Should be generated
+    'Embeddings': '', # Can be empty
+    'Nationality': '', # AI will fill, default to empty if fails
+    'Current school': '', # Optional, can be empty. If AI adds, it should be meaningful.
+    'School website': '', # Optional, can be empty.
+    'Email': '',           # Optional, can be empty.
+    'Source ID': '' # Mapped directly from 'ID', default to empty if 'ID' is missing
 }
 
 # Fields that should be inferred or calculated
