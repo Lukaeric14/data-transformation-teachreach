@@ -6,6 +6,7 @@ import argparse
 import pandas as pd
 from dotenv import load_dotenv
 from src.utils.data_loader import load_csv, save_csv, load_mapping
+from src.utils.output_formatter import standardize_output
 from src.transformers.teacher_data import TeacherDataTransformer
 from src.config import (
     INPUT_FILE,
@@ -77,10 +78,19 @@ def main(input_file=None, output_file=None, mapping_file=None):
         print(f"Error during transformation: {e}")
         return
 
+    # Standardize the output format
+    try:
+        print("Standardizing output format...")
+        standardized_data = standardize_output(transformed_data)
+        print(f"Standardized {len(standardized_data)} records.")
+    except Exception as e:
+        print(f"Error standardizing output format: {e}")
+        return
+        
     # Save the transformed data
     try:
         print(f"Saving transformed data to {output_file}...")
-        save_csv(transformed_data, output_file, index=False)
+        save_csv(standardized_data, output_file, index=False)
         print("Transformation complete!")
     except Exception as e:
         print(f"Error saving transformed data: {e}")
