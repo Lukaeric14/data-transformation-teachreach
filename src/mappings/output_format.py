@@ -47,6 +47,15 @@ FIELD_MAPPING = {
     'current_location_city': 'current_location_city',
     'subject': 'subject',
     
+    # AI-enriched fields - add direct mappings to preserve these
+    'bio': 'bio',
+    'preferred_curriculum_experience': 'preferred_curriculum_experience',
+    'years_of_teaching_experience': 'years_of_teaching_experience',
+    'linkedin_profile_url': 'linkedin_profile_url',
+    'preferred_grade_level': 'preferred_grade_level',
+    'Nationality': 'Nationality',
+    'ID': 'Source ID',
+    
     # Fields that need to be renamed
     'name': 'name',
     'Name (b)': 'name',  # Alternative source for name
@@ -67,13 +76,19 @@ FIELD_MAPPING = {
 DEFAULT_VALUES = {
     'profile_completion_percentage': 0,
     'profile_visibility': 'private',
-    'bio': '',
+    'bio': 'No biography provided',  # Updated to provide a meaningful default
     'willing_to_relocate': False,
     'hourly_rate': 0,
     'monthly_salary_expectation': 0,
     'background_check_status': 'not_verified',
     'subjects_count': 1,
     'work_authorization_status': 'unknown',
+    'preferred_curriculum_experience': 'Not specified',  # Added meaningful default
+    'years_of_teaching_experience': '0',  # Added meaningful default
+    'linkedin_profile_url': 'Not provided',  # Added meaningful default
+    'preferred_grade_level': 'Elementary',  # Added meaningful default
+    'Nationality': 'International',  # Added meaningful default
+    'Source ID': 'Unknown',  # Added meaningful default
 }
 
 # Fields that should be inferred or calculated

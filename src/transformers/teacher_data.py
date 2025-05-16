@@ -105,14 +105,29 @@ class TeacherDataTransformer(BaseTransformer):
             for field, value in inferred_values.items():
                 transformed[field] = value
                 
-        # Fill in default values for missing required fields
+        # AI-infer required fields if missing/empty
+        ai_required_fields = [
+            'bio', 'preferred_curriculum_experience', 'years_of_teaching_experience', 
+            'linkedin_profile_url', 'preferred_grade_level', 'Nationality'
+        ]  # Do NOT include 'Source ID' here; it is mapped directly from 'ID' in input.
+        missing_ai_fields = [
+            field for field in ai_required_fields
+            if field not in transformed or pd.isna(transformed[field]) or not str(transformed[field]).strip() or str(transformed[field]).strip().lower() in ['bio', 'not specified', 'not provided']
+        ]
+        if missing_ai_fields:
+            teacher_data = row.to_dict()
+            print(f"AI-inferencing fields: {missing_ai_fields} for teacher: {teacher_data}")
+            inferred = self.openai_client.infer_multiple_fields(missing_ai_fields, teacher_data)
+            print(f"AI-inferred values: {inferred}")
+            for field, value in inferred.items():
+                if value and str(value).strip() and str(value).strip().lower() not in ['bio', 'not specified', 'not provided']:
+                    transformed[field] = value
+        # Fill in default values for any required fields still missing
         for col in self.required_output_columns:
-            if col not in transformed or pd.isna(transformed[col]) or transformed[col] == '':
+            if col not in transformed or pd.isna(transformed[col]) or not str(transformed[col]).strip():
                 transformed[col] = self._get_default_value(col)
-                
         # Add timestamp
         transformed['created_at'] = datetime.now().isoformat()
-        
         return transformed
         
     def _get_default_value(self, column_name):
