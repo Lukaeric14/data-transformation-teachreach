@@ -1,18 +1,15 @@
-input	output
--	ID (a)
-First (FP) + Last (FV)	Name (b)
-Headline (FS)	Headline (d)
-Country (B)	country (R)
-City (A)	city (s)
-Linkedin URL (FW)	Linkedin URL (u)
-organization (U)	School (AA)
-organization website	school website (AB)
-Email E	Email (AC)
-ID 	Source ID (AD)
-    
-Inferred from available data	
-AI	Years of experience (P)
-AI	Subject (Array) (c)
-AI	Preferred curriculumn (O)
-AI	Nationality (Z)
-AI	Preferred age range (V)
+Output fields: 
+teacher_id	name	subject	headline	bio	profile_completion_percentage	profile_visibility	preferred_teaching_modes	willing_to_relocate	hourly_rate	monthly_salary_expectation	available_start_date	cv_resume_url	video_intro_url	preferred_curriculum_experience	years_of_teaching_experience	work_authorization_status	current_location_country	current_location_city	background_check_status	linkedin_profile_url	preferred_grade_level	subjects_count	created_at	Embeddings	Nationality	Current school	School website	Email	Source ID
+
+Columns to be kept empty: 
+profile_completion_percentage
+profile_visibility
+preferred_teaching_modes
+willing_to_relocate
+hourly_rate
+monthly_salary_expectation
+available_start_date
+cv_resume_url
+video_intro_url
+work_authorization_status
+background_check_status

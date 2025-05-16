@@ -27,7 +27,8 @@ class TeacherDataTransformer(BaseTransformer):
         # Default required output columns
         self.required_output_columns = [
             'teacher_id', 'name', 'subject', 'headline',
-            'current_location_country', 'current_location_city'
+            'current_location_country', 'current_location_city',
+            'bio', 'preferred_curriculum_experience', 'years_of_teaching_experience', 'linkedin_profile_url'
         ]
         
         # Initialize OpenAI client for AI field inference
@@ -130,7 +131,11 @@ class TeacherDataTransformer(BaseTransformer):
             'subject': lambda: 'General Education',
             'headline': lambda: 'Teacher',
             'current_location_country': lambda: 'Unknown',
-            'current_location_city': lambda: 'Unknown'
+            'current_location_city': lambda: 'Unknown',
+            'bio': lambda: 'No biography provided',
+            'preferred_curriculum_experience': lambda: 'Not specified',
+            'years_of_teaching_experience': lambda: '0',
+            'linkedin_profile_url': lambda: 'Not provided'
         }
         
         return defaults.get(column_name, lambda: None)()

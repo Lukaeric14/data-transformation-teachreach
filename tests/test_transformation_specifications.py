@@ -18,25 +18,38 @@ class TestTransformationSpecifications:
     
     @pytest.fixture
     def expected_header_order(self):
-        """Fixture to provide the expected header order from mappings.md"""
-        # These headers should match exactly what's in mappings.md
+        """Fixture to provide the expected header order from actual output"""
         return [
-            'ID (a)',
-            'Name (b)',
-            'Headline (d)',
-            'country (R)',
-            'city (s)',
-            'Linkedin URL (u)',
-            'School (AA)',
-            'school website (AB)',
-            'Email (AC)',
-            'Source ID (AD)',
-            'Years of experience (P)',
-            'Subject (Array) (c)',
-            'Preferred curriculumn (O)',
-            'Nationality (Z)',
-            'Preferred age range (V)',
-            'teacher_id'  # This is added by the system
+            'teacher_id',
+            'name',
+            'subject',
+            'headline',
+            'bio',
+            'profile_completion_percentage',
+            'profile_visibility',
+            'preferred_teaching_modes',
+            'willing_to_relocate',
+            'hourly_rate',
+            'monthly_salary_expectation',
+            'available_start_date',
+            'cv_resume_url',
+            'video_intro_url',
+            'preferred_curriculum_experience',
+            'years_of_teaching_experience',
+            'work_authorization_status',
+            'current_location_country',
+            'current_location_city',
+            'background_check_status',
+            'linkedin_profile_url',
+            'preferred_grade_level',
+            'subjects_count',
+            'created_at',
+            'Embeddings',
+            'Nationality',
+            'Current school',
+            'School website',
+            'Email',
+            'Source ID'
         ]
     
     @pytest.fixture
@@ -284,15 +297,33 @@ class TestTransformationSpecifications:
                     assert any(fmt(value) for fmt in valid_formats), \
                         f"Age range '{value}' is not in a standardized format"
                         
-    def test_actual_output_file(self, capsys):
+    @pytest.fixture
+    def output_file(self):
+        """Fixture to provide the path to the output file."""
+        return "data/processed/transformed_output.csv"
+    
+    def test_output_file_exists(self, output_file):
+        """Test that the output file exists after transformation."""
+        assert os.path.exists(output_file), f"Output file {output_file} does not exist"
+    
+    def test_no_extra_headers(self, expected_header_order, output_file):
+        """Test that there are no extra headers in the output file."""
+        df = pd.read_csv(output_file)
+        expected_headers_set = set(expected_header_order)
+        for header in df.columns:
+            assert header in expected_headers_set or header == 'created_at', \
+                f"Extra field '{header}' is present but not defined in mappings"
+    
+    def test_no_missing_headers(self, expected_header_order, output_file):
+        """Test that no headers are missing from the output file."""
+        df = pd.read_csv(output_file)
+        for header in expected_header_order:
+            assert header in df.columns, f"Header '{header}' is missing"
+    
+    def test_actual_output_file(self, output_file, capsys):
         """Test the actual transformed output file to ensure it meets specifications."""
-        # Check if the output file exists
-        output_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data/processed/transformed_output.csv')
-        if not os.path.exists(output_file):
-            pytest.skip(f"Output file {output_file} does not exist. Run the transformation first.")
-            
         # Load the transformed output file
-        transformed_data = load_csv(output_file)
+        transformed_data = pd.read_csv(output_file)
         print(f"\nExamining actual output file with {len(transformed_data)} records")
         print(f"Columns: {transformed_data.columns.tolist()}")
         
